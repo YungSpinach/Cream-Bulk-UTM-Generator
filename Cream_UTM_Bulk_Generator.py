@@ -69,7 +69,11 @@ def generate_utm_url(row):
 if uploaded_file is not None:
     try:
         # 2. Read and Process Data
-        df = pd.read_excel(uploaded_file, engine='openpyxl')
+        try:
+            df = pd.read_excel(uploaded_file, engine='openpyxl')
+        except ImportError:
+            st.error("ERROR: The `openpyxl` library is required to read Excel files.\n\nPlease install it in your terminal by running: `pip install openpyxl`")
+            st.stop()
 
         st.header("2. Review Input Data")
         st.dataframe(df)
