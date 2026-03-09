@@ -6,7 +6,8 @@ import io
 st.set_page_config(page_title="Bulk UTM Generator", layout="wide")
 st.image("https://images.squarespace-cdn.com/content/5c9e3048523958515c382443/2129c340-d177-48e6-8b14-3c8b01a94ec7/CreamLogo-EMAILSIGNATURE.png?content-type=image%2Fpng", width=100)
 st.text("")
-st.title("Cream Bulk UTM Generator")
+st.title("Bulk UTM Generator")
+st.image("https://www.nimbata.com/wp-content/uploads/2024/03/Where-are-my-UTMs-1024x576.png", width=100)
 
 # --- Main App Logic ---
 
@@ -150,6 +151,8 @@ if uploaded_file is not None:
                 file_name='utm_campaign_urls.csv',
                 mime='text/csv',
             )
+            st.image("https://substackcdn.com/image/fetch/$s_!gulA!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F6e954df9-02a8-460d-ba90-9cea62c0ac48_500x375.jpeg", width=100)
+
 
     except Exception as e:
         st.error(f"An error occurred while processing the file: {e}")
