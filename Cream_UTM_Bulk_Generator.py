@@ -42,10 +42,10 @@ def generate_utm_url(row):
 
     # Mapping from DataFrame columns to UTM parameters
     utm_mapping = {
-        'utm_id': row.get('campaign_ID'),
         'utm_source': row.get('campaign_source'),
         'utm_medium': row.get('campaign_medium'),
-        'utm_name': row.get('campaign_name'),
+        'utm_campaign': row.get('campaign_name'),
+        'utm_id': row.get('campaign_ID'),
         'utm_term': row.get('campaign_term'),
         'utm_content': row.get('campaign_content'),
     }
@@ -90,13 +90,20 @@ if uploaded_file is not None:
             # Apply the function to each row to create the new 'campaign_URL' column
             df['campaign_URL'] = df.apply(generate_utm_url, axis=1)
 
+            # Create a new column that will be converted into a clickable link
+            df['testing_link'] = df['campaign_URL']
+
             # Display the final table with clickable links
-            st.info("Click the links in the 'Campaign URL' column to test them.")
+            st.info("Click the links in the 'Testing Link' column to test them.")
             st.data_editor(
                 df,
                 column_config={
-                    "campaign_URL": st.column_config.LinkColumn(
+                    "campaign_URL": st.column_config.TextColumn(
                         "Campaign URL",
+                        help="The full generated campaign URL."
+                    ),
+                    "testing_link": st.column_config.LinkColumn(
+                        "Testing Link",
                         help="Click to open and test the generated URL in a new tab.",
                         display_text="🔗 Open Link"
                     )
