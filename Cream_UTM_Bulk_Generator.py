@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from urllib.parse import urlencode, quote_plus
+import io
 
 st.set_page_config(page_title="Bulk UTM Generator", layout="wide")
 st.image("https://images.squarespace-cdn.com/content/5c9e3048523958515c382443/2129c340-d177-48e6-8b14-3c8b01a94ec7/CreamLogo-EMAILSIGNATURE.png?content-type=image%2Fpng", width=100)
@@ -24,6 +25,47 @@ st.markdown(
     - `campaign_content` (Optional)
     """
 )
+
+st.markdown("---")
+st.subheader("Download Template")
+st.markdown("Don't have a file? View the example below and download the template to get started.")
+
+# --- Template Generation ---
+
+# Create a sample DataFrame for the template
+template_data = {
+    'Base_URL': ['https://www.example.com/page1', 'https://www.example.com/page2?existing_param=true'],
+    'campaign_source': ['google', 'facebook'],
+    'campaign_medium': ['cpc', 'social'],
+    'campaign_name': ['spring_sale', 'summer_promo'],
+    'campaign_ID': ['123', '456'],
+    'campaign_term': ['running_shoes', ''],
+    'campaign_content': ['ad_variant_a', 'post_image_1']
+}
+template_df = pd.DataFrame(template_data)
+
+# Display the template table in the app
+st.dataframe(template_df)
+
+# Function to convert DataFrame to Excel in memory, cached for performance
+@st.cache_data
+def to_excel(df):
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Sheet1')
+    return output.getvalue()
+
+excel_data = to_excel(template_df)
+
+# Add the download button for the Excel template
+st.download_button(
+    label="📥 Download Excel Template",
+    data=excel_data,
+    file_name='input_template.xlsx',
+    mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+)
+st.markdown("---")
+
 uploaded_file = st.file_uploader("Choose an Excel file", type="xlsx")
 
 # Function to convert DataFrame to CSV for download
