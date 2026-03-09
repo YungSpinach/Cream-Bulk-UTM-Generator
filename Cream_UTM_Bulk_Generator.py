@@ -28,42 +28,29 @@ st.markdown(
 
 st.markdown("---")
 st.subheader("Download Template")
-st.markdown("Don't have a file? View the example below and download the template to get started.")
+st.markdown("Don't have a file? Download the template to get started.")
 
-# --- Template Generation ---
+# --- Template Download ---
 
-# Create a sample DataFrame for the template
-template_data = {
-    'Base_URL': ['https://www.example.com/page1', 'https://www.example.com/page2?existing_param=true'],
-    'campaign_source': ['google', 'facebook'],
-    'campaign_medium': ['cpc', 'social'],
-    'campaign_name': ['spring_sale', 'summer_promo'],
-    'campaign_ID': ['123', '456'],
-    'campaign_term': ['running_shoes', ''],
-    'campaign_content': ['ad_variant_a', 'post_image_1']
-}
-template_df = pd.DataFrame(template_data)
-
-# Display the template table in the app
-st.dataframe(template_df)
-
-# Function to convert DataFrame to Excel in memory, cached for performance
 @st.cache_data
-def to_excel(df):
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False, sheet_name='Sheet1')
-    return output.getvalue()
+def load_template_file(path):
+    """Reads the template file from disk and returns its content as bytes."""
+    with open(path, "rb") as f:
+        return f.read()
 
-excel_data = to_excel(template_df)
+try:
+    # Load the actual template file from the directory
+    template_file_bytes = load_template_file('input_template.xlsx')
 
-# Add the download button for the Excel template
-st.download_button(
-    label="📥 Download Excel Template",
-    data=excel_data,
-    file_name='input_template.xlsx',
-    mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-)
+    # Add the download button for the Excel template
+    st.download_button(
+        label="📥 Download Excel Template",
+        data=template_file_bytes,
+        file_name='input_template.xlsx',
+        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+except FileNotFoundError:
+    st.warning("`input_template.xlsx` not found in the app's directory. The template download button is disabled.")
 st.markdown("---")
 
 uploaded_file = st.file_uploader("Choose an Excel file", type="xlsx")
@@ -86,7 +73,7 @@ def generate_utm_url(row):
     utm_mapping = {
         'utm_source': row.get('campaign_source'),
         'utm_medium': row.get('campaign_medium'),
-        'utm_campaign': row.get('campaign_name'),
+        'utm_name': row.get('campaign_name'),
         'utm_id': row.get('campaign_ID'),
         'utm_term': row.get('campaign_term'),
         'utm_content': row.get('campaign_content'),
