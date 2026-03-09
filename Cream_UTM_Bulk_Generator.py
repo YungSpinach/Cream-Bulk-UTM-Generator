@@ -14,13 +14,14 @@ st.header("1. Upload Your File")
 st.markdown(
     """
     Upload an Excel file (`.xlsx`) with your base URLs and campaign parameters.
-    Your file should contain the following columns:
-    - `Base URL`
-    - `Campaign Source`
-    - `Campaign Medium`
-    - `Campaign Name`
-    - `Campaign Term` (Optional)
-    - `Campaign Content` (Optional)
+    Your file should contain columns with the following headers (case-sensitive):
+    - `Base_URL`
+    - `campaign_source`
+    - `campaign_medium`
+    - `campaign_name`
+    - `campaign_ID` (Optional)
+    - `campaign_term` (Optional)
+    - `campaign_content` (Optional)
     """
 )
 uploaded_file = st.file_uploader("Choose an Excel file", type="xlsx")
@@ -34,21 +35,22 @@ def convert_df_to_csv(df):
 # Function to generate the UTM URL
 def generate_utm_url(row):
     """Generates a single UTM campaign URL from a DataFrame row."""
-    base_url = row.get('Base URL')
+    base_url = row.get('Base_URL')
     # Return empty if no base URL is provided
     if not base_url or pd.isna(base_url):
         return ""
 
     # Mapping from DataFrame columns to UTM parameters
     utm_mapping = {
-        'utm_source': row.get('Campaign Source'),
-        'utm_medium': row.get('Campaign Medium'),
-        'utm_name': row.get('Campaign Name'),
-        'utm_term': row.get('Campaign Term'),
-        'utm_content': row.get('Campaign Content'),
+        'utm_id': row.get('campaign_ID'),
+        'utm_source': row.get('campaign_source'),
+        'utm_medium': row.get('campaign_medium'),
+        'utm_name': row.get('campaign_name'),
+        'utm_term': row.get('campaign_term'),
+        'utm_content': row.get('campaign_content'),
     }
 
-    # Filter out any parameters that are empty or NaN
+    # Filter out any parameters that are empty, null (NaN), or just whitespace
     active_utm_params = {k: v for k, v in utm_mapping.items() if pd.notna(v) and str(v).strip() != ''}
 
     # If no active UTM parameters, return the base URL as is
@@ -79,8 +81,8 @@ if uploaded_file is not None:
         st.dataframe(df)
 
         # Check if the essential 'Base URL' column exists
-        if 'Base URL' not in df.columns:
-            st.error("Error: The uploaded file must contain a 'Base URL' column.")
+        if 'Base_URL' not in df.columns:
+            st.error("Error: The uploaded file must contain a 'Base_URL' column.")
         else:
             # 3. Generate URLs and Display Results
             st.header("3. Generated Campaign URLs")
