@@ -6,7 +6,7 @@ from urllib.parse import urlencode, quote_plus
 st.set_page_config(page_title="Cream Bulk UTM Generator", layout="wide")
 # The main title and image will be displayed on every page.
 st.image("https://images.squarespace-cdn.com/content/5c9e3048523958515c382443/2129c340-d177-48e6-8b14-3c8b01a94ec7/CreamLogo-EMAILSIGNATURE.png?content-type=image%2Fpng", width=100)
-st.title("Cream Bulk UTM Generator")
+st.title("Bulk Campaign URL Generator (UTMs)")
 
 # --- Column Definitions (Shared) ---
 # Defining columns here for consistency across the app
@@ -153,6 +153,8 @@ def page_excel_upload():
                     mime='text/csv',
                 )
                 st.image("https://substackcdn.com/image/fetch/$s_!gulA!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F6e954df9-02a8-460d-ba90-9cea62c0ac48_500x375.jpeg", width=200)
+                st.title("All the best!")
+
 
         except Exception as e:
             st.error(f"An error occurred while processing the file: {e}")
@@ -221,6 +223,7 @@ def page_in_tool_input():
                 mime='text/csv',
             )
             st.image("https://substackcdn.com/image/fetch/$s_!gulA!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F6e954df9-02a8-460d-ba90-9cea62c0ac48_500x375.jpeg", width=200)
+            st.title("All the best!")
     else:
         st.info("Click the 'Generate Campaign URLs' button after entering your data.")
 
