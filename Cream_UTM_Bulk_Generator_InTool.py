@@ -65,7 +65,10 @@ st.header("1. Input Your Campaign Data")
 st.info("Add your data in the table below. You can add more rows using the '+' button at the bottom.")
 
 # Create an initial DataFrame with one empty row to guide the user
-initial_df = pd.DataFrame([{}], columns=COLUMNS)
+# When creating an empty DataFrame for the editor, pandas defaults to a 'float' dtype
+# for empty columns, which is incompatible with st.column_config.TextColumn.
+# To fix this, we explicitly create a DataFrame with string values (empty strings).
+initial_df = pd.DataFrame([{col: "" for col in COLUMNS}])
 
 # Use st.data_editor for interactive input
 input_df = st.data_editor(
