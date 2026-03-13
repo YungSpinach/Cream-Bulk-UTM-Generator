@@ -7,6 +7,8 @@ st.set_page_config(page_title="Cream Bulk UTM Generator", layout="wide")
 # The main title and image will be displayed on every page.
 st.image("https://images.squarespace-cdn.com/content/5c9e3048523958515c382443/2129c340-d177-48e6-8b14-3c8b01a94ec7/CreamLogo-EMAILSIGNATURE.png?content-type=image%2Fpng", width=100)
 st.title("Bulk Campaign URL Generator (UTMs)")
+st.caption("NB: avoid using spaces and special characters (&, %, etc.) in your campaign parameters. Use dashes or underscores instead. For example, use `summer_sale` instead of `summer sale` for the `campaign_name` parameter.")
+st.caption("To faciliate easy reporting (including in funnel / GA), make the UTM parameters match naming conventions in ad platform (including case sensitivity).")
 
 # --- Column Definitions (Shared) ---
 # Defining columns here for consistency across the app
