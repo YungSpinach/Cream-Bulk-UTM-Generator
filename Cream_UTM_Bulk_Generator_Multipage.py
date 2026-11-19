@@ -40,7 +40,7 @@ def generate_utm_url(row):
     utm_mapping = {
         'utm_source': row.get('campaign_source'),
         'utm_medium': row.get('campaign_medium'),
-        'utm_name': row.get('campaign_name'),
+        'utm_campaign': row.get('campaign_name'),
         'utm_id': row.get('campaign_ID'),
         'utm_term': row.get('campaign_term'),
         'utm_content': row.get('campaign_content'),
